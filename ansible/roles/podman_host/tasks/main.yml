@@ -1,0 +1,16 @@
+---
+- name: Install Podman packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ podman_packages }}"
+    state: present
+
+- name: Gather Podman version
+  ansible.builtin.command:
+    cmd: podman --version
+  register: podman_version
+  changed_when: false
+
+- name: Display Podman version
+  ansible.builtin.debug:
+    var: podman_version.stdout

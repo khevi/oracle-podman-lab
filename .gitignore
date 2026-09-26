@@ -1,0 +1,27 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+
+# Ansible
+*.retry
+
+# Oracle software
+*.zip
+*.rpm
+
+# Secrets / environment
+.env
+*.secret
+*.key
+*.pem
+
+# Logs
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

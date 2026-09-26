@@ -1,0 +1,7 @@
+---
+- name: Prepare Oracle Podman host
+  hosts: oracle_hosts
+  gather_facts: true
+
+  roles:
+    - podman_host
