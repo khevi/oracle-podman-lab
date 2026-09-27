@@ -5,3 +5,7 @@ oracle_oradata_dir: "{{ oracle_data_base_dir }}/oradata"
 
 oracle_listener_port: 1521
 oracle_em_port: 5500
+
+oracle_image_name: oracle/database
+oracle_image_tag: "19.3.0-ee"
+oracle_container_oradata: /opt/oracle/oradata

@@ -14,3 +14,22 @@
 - name: Display Oracle persistent storage location
   ansible.builtin.debug:
     msg: "Oracle persistent data will be stored in {{ oracle_oradata_dir }}"
+
+- name: Check rootless Podman status
+  ansible.builtin.command:
+    cmd: podman info --format '{{ "{{" }}.Host.Security.Rootless{{ "}}" }}'
+  register: podman_rootless
+  changed_when: false
+
+- name: Display Podman rootless status
+  ansible.builtin.debug:
+    msg: "Podman rootless mode: {{ podman_rootless.stdout }}"
+
+- name: Display planned Oracle container configuration
+  ansible.builtin.debug:
+    msg:
+      - "Container: {{ oracle_container_name }}"
+      - "Image: {{ oracle_image_name }}:{{ oracle_image_tag }}"
+      - "Listener: {{ oracle_listener_port }}"
+      - "Enterprise Manager: {{ oracle_em_port }}"
+      - "Storage: {{ oracle_oradata_dir }} -> {{ oracle_container_oradata }}"
