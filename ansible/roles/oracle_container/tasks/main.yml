@@ -33,3 +33,21 @@
       - "Listener: {{ oracle_listener_port }}"
       - "Enterprise Manager: {{ oracle_em_port }}"
       - "Storage: {{ oracle_oradata_dir }} -> {{ oracle_container_oradata }}"
+
+- name: Check whether Oracle 19c image exists locally
+  ansible.builtin.command:
+    cmd: podman image exists {{ oracle_image_name }}:{{ oracle_image_tag }}
+  register: oracle_image_check
+  changed_when: false
+  failed_when: false
+
+- name: Report Oracle image availability
+  ansible.builtin.debug:
+    msg: >-
+      Oracle image {{ oracle_image_name }}:{{ oracle_image_tag }}
+      {{ 'is available locally.' if oracle_image_check.rc == 0
+         else 'is not available locally. Container deployment will be skipped.' }}
+
+- name: Set Oracle image availability
+  ansible.builtin.set_fact:
+    oracle_image_available: "{{ oracle_image_check.rc == 0 }}"
