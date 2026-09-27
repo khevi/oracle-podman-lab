@@ -1,0 +1,7 @@
+---
+oracle_container_name: oracle19c
+oracle_data_base_dir: "{{ ansible_env.HOME }}/oracle-data"
+oracle_oradata_dir: "{{ oracle_data_base_dir }}/oradata"
+
+oracle_listener_port: 1521
+oracle_em_port: 5500

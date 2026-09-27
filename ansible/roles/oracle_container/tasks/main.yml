@@ -1,0 +1,16 @@
+---
+- name: Create Oracle data base directory
+  ansible.builtin.file:
+    path: "{{ oracle_data_base_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Create Oracle persistent data directory
+  ansible.builtin.file:
+    path: "{{ oracle_oradata_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Display Oracle persistent storage location
+  ansible.builtin.debug:
+    msg: "Oracle persistent data will be stored in {{ oracle_oradata_dir }}"
