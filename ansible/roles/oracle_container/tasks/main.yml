@@ -51,3 +51,15 @@
 - name: Set Oracle image availability
   ansible.builtin.set_fact:
     oracle_image_available: "{{ oracle_image_check.rc == 0 }}"
+
+- name: Deploy Oracle 19c container
+  containers.podman.podman_container:
+    name: "{{ oracle_container_name }}"
+    image: "{{ oracle_image_name }}:{{ oracle_image_tag }}"
+    state: started
+    ports:
+      - "{{ oracle_listener_port }}:1521"
+      - "{{ oracle_em_port }}:5500"
+    volumes:
+      - "{{ oracle_oradata_dir }}:{{ oracle_container_oradata }}:Z"
+  when: oracle_image_available
