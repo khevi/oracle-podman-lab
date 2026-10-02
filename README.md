@@ -52,7 +52,18 @@ Current components:
 - Persistent Oracle data directory
 - SELinux-compatible container storage
 
-The Oracle 19c container image is not included in this repository and has not yet been deployed.
+The Oracle 19c container image has been successfully built and deployed using rootless Podman.
+
+Current database configuration:
+
+- Container: `oracle19c`
+- CDB: `ORCLCDB`
+- PDB: `DEV`
+- Oracle Listener: port `1521`
+- EM Express: port `5500`
+- Persistent database storage: `~/oracle-data/oradata`
+
+The Oracle installation media and resulting container image are not distributed through this repository.
 
 ## Repository Structure
 
@@ -81,9 +92,43 @@ Implemented automation includes:
 - Podman package validation and installation
 - Rootless Podman verification
 - Oracle persistent storage directory creation
+- Rootless Podman UID/GID ownership mapping
+- SELinux-compatible persistent storage
 - Oracle container configuration variables
 - Oracle image availability detection
-- Conditional preparation for Oracle deployment
+- Oracle 19c container deployment
+- Oracle container resource limits (`nofile`, `nproc`, and `stack`)
+- Oracle Listener port mapping on `1521`
+- EM Express HTTPS port mapping on `5500`
+
+## Oracle Monitoring
+
+### Enterprise Manager Express
+
+Oracle Enterprise Manager Express has been enabled and validated for the containerized Oracle 19c database.
+
+Current monitoring configuration:
+
+- CDB: `ORCLCDB`
+- PDB: `DEV`
+- EM Express HTTPS port: `5500`
+- Container port exposed to the RHEL host
+- Database health, sessions, SQL activity, performance, and storage can be monitored through EM Express
+
+### Enterprise Manager Cloud Control 13.5
+
+A separate Oracle Linux 8.10 virtual machine, `oemserver`, is being configured as the centralized Oracle monitoring server.
+
+Repository database configuration:
+
+- Oracle Database 19c Enterprise Edition 19.32
+- CDB: `EMREP`
+- Repository PDB: `EMPDBREPOS`
+- Oracle Listener: port `1521`
+- OEM repository database prerequisite checks successfully validated
+- Oracle Enterprise Manager Cloud Control 13.5 installation in progress
+
+The goal is to use OEM Cloud Control to provide centralized monitoring, alerting, incident management, and performance analysis for the Oracle lab environment.
 
 ## Terraform
 
@@ -120,13 +165,16 @@ The bind mount has been validated with rootless Podman and SELinux labeling.
 
 ## Planned Work
 
-- Build the Oracle Database 19c container image from Oracle-provided installation media
-- Deploy the Oracle container through Ansible
-- Add container health and database connectivity checks
-- Provision infrastructure with Terraform
+- Complete Oracle Enterprise Manager Cloud Control 13.5 installation
+- Discover and register the containerized Oracle 19c database as an OEM target
+- Validate OEM database metrics, alerts, incidents, and performance monitoring
+- Test centralized OEM monitoring against EM Express
+- Add automated Oracle database and container health checks
+- Expand Ansible automation for Oracle lifecycle management
+- Provision lab infrastructure with Terraform
 - Integrate Terraform and Ansible workflows
 - Add CI validation for Terraform and Ansible
-- Expand documentation and architecture diagrams
+- Expand troubleshooting and architecture documentation
 
 ## Security
 
